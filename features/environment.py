@@ -1,3 +1,4 @@
+from features.config import EnvironmentConfig
 from features.config.DriverManager import DriverManager
 
 
@@ -6,19 +7,12 @@ def before_all(context):
 
 
 def before_feature(context, feature):
-    """
-    Placeholder for any before feature hooks needed
-    """
     pass
 
 
 def before_scenario(context, scenario):
-    init_browser_session(context)
-    context.browser.get("http://google.com.vn")
-
-
-def init_browser_session(context):
-    context.browser = DriverManager.create_driver()
+    init_browser(context)
+    context.browser.get(EnvironmentConfig.BASE_URL)
 
 
 def after_scenario(context, scenario):
@@ -26,7 +20,8 @@ def after_scenario(context, scenario):
 
 
 def after_all(context):
-    """
-    Placeholder for any before feature hooks needed
-    """
     pass
+
+
+def init_browser(context):
+    context.browser = DriverManager.create_driver()

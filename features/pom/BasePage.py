@@ -2,39 +2,29 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from features.config import EnvironmentConfig as EnvSetup
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
 
 
 class BasePage(object):
     def __init__(self, driver):
         self.driver = driver
 
-    def quit(self):
-        self.driver.quit()
-
-    def maximize_window(self):
-        self.driver.maximize_window()
-
-    def navigate(self, url):
+    def navigate_to(self, url):
         self.driver.get(url)
 
-    def click_back_button(self):
-        # self.driver.navigation().back()
-        self.driver.execute_script('window.history.back()')
-
-    def click_element(self, tuple_selector, move_to_element=False,
-                      timeout=EnvSetup.SELENIUM_TIMEOUT_SECONDS, by_script=False):
+    def click_element(self, selector, move_to_element=False,
+                      timeout=EnvSetup.WAIT_TIMEOUT_IN_SECONDS, by_script=False):
         if move_to_element:
-            self.move_to_element(tuple_selector)
-        element = self.wait_for_element_to_be_clickable(tuple_selector, timeout)
+            self.move_to_element(selector)
+        element = self.wait_for_element_to_be_clickable(selector, timeout)
         if by_script:
             self.driver.execute_script("arguments[0].click();", element)
             self.driver.execute_script("return arguments[0].style", element)
         else:
             element.click()
 
-    def type_text(self, tuple_selector, value=None, tab=None, enter=None):
-        element = self.wait_for_visibility_of_element_located(tuple_selector)
+    def input_text(self, selector, value=None, tab=None, enter=None):
+        element = self.wait_for_visibility_of_element(selector)
         if value:
             element.send_keys(value)
         if tab:
@@ -42,15 +32,15 @@ class BasePage(object):
         if enter:
             element.send_keys(Keys.ENTER)
 
-    def move_to_element(self, tuple_selector):
-        wait = WebDriverWait(self.driver, EnvSetup.SELENIUM_TIMEOUT_SECONDS)
-        element = wait.until(EC.presence_of_element_located(tuple_selector))
+    def move_to_element(self, selector):
+        wait = WebDriverWait(self.driver, EnvSetup.WAIT_TIMEOUT_IN_SECONDS)
+        element = wait.until(ec.presence_of_element_located(selector))
         ActionChains(self.driver).move_to_element(element).perform()
 
-    def wait_for_element_to_be_clickable(self, tuple_selector, timeout=EnvSetup.SELENIUM_TIMEOUT_SECONDS):
+    def wait_for_element_to_be_clickable(self, selector, timeout=EnvSetup.WAIT_TIMEOUT_IN_SECONDS):
         wait = WebDriverWait(self.driver, timeout)
-        return wait.until(EC.element_to_be_clickable(tuple_selector))
+        return wait.until(ec.element_to_be_clickable(selector))
 
-    def wait_for_visibility_of_element_located(self, tuple_selector, timeout=EnvSetup.SELENIUM_TIMEOUT_SECONDS):
+    def wait_for_visibility_of_element(self, selector, timeout=EnvSetup.WAIT_TIMEOUT_IN_SECONDS):
         wait = WebDriverWait(self.driver, timeout)
-        return wait.until(EC.visibility_of_element_located(tuple_selector))
+        return wait.until(ec.visibility_of_element_located(selector))

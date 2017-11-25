@@ -8,7 +8,7 @@ __author__ = 'An Nguyen'
 
 @given('user navigates to Google page')
 def step_navigate_to_google_page(context):
-    SearchPage(context.browser).navigate(EnvConfig.BASE_URL)
+    SearchPage(context.browser).navigate_to(EnvConfig.BASE_URL)
 
 
 @when('user inputs "{keyword}" keyword into search field and type ENTER on keyboard')
