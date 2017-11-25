@@ -11,9 +11,9 @@ def step_navigate_to_google_page(context):
     SearchPage(context.browser).navigate(EnvConfig.BASE_URL)
 
 
-@when('user inputs "{keyword}" keyword into search field')
+@when('user inputs "{keyword}" keyword into search field and type ENTER on keyboard')
 def step_input_keyword_to_search_field(context, keyword):
-    SearchPage(context.browser).input_google_search_field(keyword)
+    SearchPage(context.browser).input_and_enter_google_search_field(keyword)
 
 
 @step('user clicks Search button')

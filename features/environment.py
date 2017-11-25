@@ -4,6 +4,7 @@ from features.config.DriverManager import DriverManager
 def before_all(context):
     pass
 
+
 def before_feature(context, feature):
     """
     Placeholder for any before feature hooks needed
@@ -19,8 +20,9 @@ def before_scenario(context, scenario):
 def init_browser_session(context):
     context.browser = DriverManager.create_driver()
 
+
 def after_scenario(context, scenario):
-    pass
+    context.browser.close()
 
 
 def after_all(context):

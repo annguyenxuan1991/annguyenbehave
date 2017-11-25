@@ -9,10 +9,11 @@ class DriverManager(object):
     def create_driver():
         if EnvironmentConfig.BROWSER.lower() == "chrome":
             chrome_options = Options()
-            chrome_options.add_argument('disable-infobars')
+            chrome_options.add_argument("disable-infobars")
             chrome_options.add_argument("--start-maximized")
             return webdriver.Chrome(
                 chrome_options=chrome_options,
-                executable_path=Helper.get_file_by_relative_path(EnvironmentConfig.RESOURCES_FOLDER_PATH))
+                executable_path=Helper.get_file_by_relative_path(EnvironmentConfig.RESOURCES_FOLDER_PATH +
+                                                                 "\chromedriver.exe"))
         if EnvironmentConfig.BROWSER.lower() == "firefox":
             return webdriver.Firefox()
