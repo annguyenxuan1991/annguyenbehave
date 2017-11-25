@@ -12,7 +12,6 @@ def before_feature(context, feature):
 
 def before_scenario(context, scenario):
     init_browser(context)
-    context.browser.get(EnvironmentConfig.BASE_URL)
 
 
 def after_scenario(context, scenario):
